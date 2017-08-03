@@ -23,3 +23,27 @@
     </div>
   </div>
 </div>
+
+<h3>Cards</h3>
+<ol>
+  <% @tag.cards.each do |card| %>
+  <li>
+    <a href="/cards/<%= card.id %>">
+       <%= card.title %>
+    </a>
+  </li>
+  <% end %>
+</ol>
+
+<h3>Boards</h3>
+<ol>
+  <% @uniqueBoards.each do |uniqueBoard| %>
+    <li>
+      <a href="/boards/<%= uniqueBoard.id %>">
+         <%= uniqueBoard.title %>
+      </a>
+    </li>
+  <% end %>
+  </ol>
+
+

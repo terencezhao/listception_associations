@@ -12,11 +12,8 @@
       <dd><%= @card.description %></dd>
 
       <dt>List</dt>
-      <dd><%= @card.list_id %></dd>
-
-      <dt>Position order</dt>
-      <dd><%= @card.position_order %></dd>
-
+      <dd><%= @card.list.title %></dd>
+      
     </dl>
 
     <div class="btn-group btn-group-justified">
@@ -32,3 +29,72 @@
     </div>
   </div>
 </div>
+
+<h3>Notes</h3>
+
+<ol>
+  <% @card.notes.each do |note| %>
+    <li><%= note.body %></li>
+  <% end %>
+  <li>
+    <form action="/create_note" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="WWme5/74gpjHv3oyVMkciO4XjLScZPYn4ee1/g+hf/kAVzFOYVGDuQhn9oUAtfC+gDXnofKepAlqjKumobH6LA==">
+
+      <!-- Label and input for body -->
+      <div class="form-group">
+        <label for="body" class="control-label">
+          Body
+        </label>
+
+        <textarea id="body" name="body" placeholder="Body" class="form-control" rows="3"></textarea>
+      </div>
+
+
+      <input type="hidden" id="card_id" name="card_id" value="58">
+
+      <button class="btn btn-default">
+        Create Note
+      </button>
+    </form>
+  </li>
+</ol>
+
+<h3>Tags</h3>
+<ol>
+  <% @card.tags.each do |tag| %>
+  <li>
+    <a href="/tags/<%= tag.id %>">
+      <%= tag.name %>
+    </a>
+  </li>
+  <% end %>
+  <li>
+    <form action="/create_tagging" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="Pk2CJvS3hWK+nqsMEwZRcNqKT01llKHb+AWVsgtduOVncy2Pax6EQ3FGJ7tHer1GtKgkWAtu8/VzbovqpU09MA==">
+
+      <!-- Label and input for tag_id -->
+      <div class="form-group">
+        <label for="tag_id" class="control-label">
+          Tag
+        </label>
+
+        <select name="tag_id" id="tag_id" class="form-control">
+          <% Tag.all.each do |tag| %>
+            <option value="<%= tag.id %>"><%= tag.name %> </option>
+          <% end %>
+        </select>
+      </div>
+
+      <input type="hidden" id="card_id" name="card_id" value="58">
+
+      <button class="btn btn-default">
+        Create Tagging
+      </button>
+    </form>
+  </li>
+</ol>
+
+  </div>
+</body>

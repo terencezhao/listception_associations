@@ -7,7 +7,11 @@ class TagsController < ApplicationController
 
   def show
     @tag = Tag.find(params[:id])
-
+    boards = Array.new
+    @tag.cards.each do |card|
+      boards.push(card.list.board)
+    end
+    @uniqueBoards = boards.uniq{|board| board.title}
     render("tags/show.html.erb")
   end
 

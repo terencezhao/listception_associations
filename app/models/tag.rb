@@ -9,5 +9,7 @@
 #
 
 class Tag < ApplicationRecord
-  validates :name, :uniqueness => :true
+    has_many(:taggings, :class_name => "Tagging", :foreign_key => "tag_id")
+    has_many :cards, through: :taggings
+    validates :name, :uniqueness => :true
 end

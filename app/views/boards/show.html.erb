@@ -1,28 +1,78 @@
 <div class="page-header">
-  <h3>Board #<%= @board.id %></h3>
+  <h1>Board: <%= @board.title %>
+    <small><%= @board.description %>
+      <a href="/boards" class="btn btn-default">Back</a>
+      <a href="/boards/<%= @board.id %>/edit" class="btn btn-default">Edit</a>
+      <a href="/delete_board/<%= @board.id %>" class="btn btn-default" rel="nofollow">Delete</a>
+    </small>
+  </h1>
 </div>
 
 <div class="row">
-  <div class="col-md-12 mb-2">
-    <dl class="dl-horizontal">
-      <dt>Title</dt>
-      <dd><%= @board.title %></dd>
-
-      <dt>Description</dt>
-      <dd><%= @board.description %></dd>
-
-    </dl>
-
-    <div class="btn-group btn-group-justified">
-      <a href="/boards" class="btn btn-default">
-        Back
-      </a>
-      <a href="/boards/<%= @board.id %>/edit" class="btn btn-default">
-        Edit
-      </a>
-      <a href="/delete_board/<%= @board.id %>" class="btn btn-default" rel="nofollow">
-        Delete
-      </a>
+  <div class="col-md-10 col-md-offset-1 mb-2">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h2>Add a new list</h2>
+        <form action="/create_list" method="post">          
+          <!-- Hidden input for authenticity token to protect from forgery -->
+          <input name="authenticity_token" type="hidden" value="eLuHcqGrmypejyJn4HKOMiQP8mgYkx1NCtTtSq3H0pohhSjbPgKaC5FXrtC0DmIESi2ZfXZpT2OBv/MSA9dXTw==">
+           <!-- Label and input for title -->
+          <div class="form-group">
+            <label for="title" class="control-label">Title</label>
+            <input type="text" id="title" name="title" placeholder="Title" class="form-control">
+          </div>
+          <input type="hidden" id="board_id" name="board_id" value="14">
+          <button class="btn btn-default">Create List</button>
+        </form>
+      </div>
     </div>
+    <!--<Lists>-->
+    <% @board.lists.each do |list| %>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h2><%= list.title %></h2>
+        <% list.cards.each do |card| %>
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2 mb-2">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">
+                  <a href="/cards/<%= card.id %>"><%= card.title %></a>
+                </h3>
+              </div>
+              <div class="panel-body">
+                <div class="lead"><%= card.description %></div>
+                <% card.tags.each do |tag| %>
+                <a href="/tags/<%= tag.id %>" class="label label-default"><%= tag.name %></a>&nbsp;
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% end %>
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2 mb-2">
+            <form action="/create_card" method="post">
+              <!-- Hidden input for authenticity token to protect from forgery -->
+              <input name="authenticity_token" type="hidden" value="ez4/mRTaf5fcZEUj/fy9cPPp51dIusDyJeRmlcSQUuYiAJAwi3N+thO8yZSpgFFGncuMQiZAktyuj3jNaoDXMw==">
+              <!-- Label and input for title -->
+              <div class="form-group">
+                <label for="title" class="control-label">Title</label>
+                <input type="text" id="title" name="title" placeholder="Title" class="form-control">
+              </div>
+              <!-- Label and input for description -->
+              <div class="form-group">
+                <label for="description" class="control-label">Description</label>
+                <input type="text" id="title" name="description" placeholder="Description" class="form-control">
+              </div>
+              <input type="hidden" id="list_id" name="list_id" value="58">
+              <button class="btn btn-default">Create Card</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% end %>
+    <!--</Lists>-->
   </div>
 </div>
